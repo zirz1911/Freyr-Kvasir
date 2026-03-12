@@ -1,12 +1,31 @@
 {
   "permissions": {
     "allow": [
-      "Bash(gh:*)", "Bash(ghq:*)", "Bash(git:*)",
-      "Bash(bun:*)", "Bash(mkdir:*)", "Bash(ln:*)",
-      "Bash(rg:*)", "Bash(date:*)", "Bash(ls:*)",
-      "Bash(*ψ/*)", "Bash(*psi/*)",
-      "Skill(learn)", "Skill(trace)", "Skill(awaken)",
-      "Skill(rrr)", "Skill(recap)", "Skill(project)"
+      "Bash(gh:*)",
+      "Bash(ghq:*)",
+      "Bash(git:*)",
+      "Bash(bun:*)",
+      "Bash(mkdir:*)",
+      "Bash(ln:*)",
+      "Bash(rg:*)",
+      "Bash(date:*)",
+      "Bash(ls:*)",
+      "Bash(*ψ/*)",
+      "Bash(*psi/*)",
+      "Skill(learn)",
+      "Skill(trace)",
+      "Skill(awaken)",
+      "Skill(rrr)",
+      "Skill(recap)",
+      "Skill(project)",
+      "Bash(ROOT=\"/home/paji/Freyr-Oracle\")",
+      "Bash(OWNER=\"alonw0\")",
+      "Bash(REPO=\"claude-monitor-esp32\")",
+      "Bash(mkdir -p \"$ROOT/ψ/learn/$OWNER/$REPO\")",
+      "Bash(echo \"$OWNER/$REPO\")",
+      "Read(//home/paji/Freyr-Oracle/$ROOT/ψ/learn/**)",
+      "Read(//home/paji/Freyr-Oracle/$ROOT/ψ/learn/$OWNER/**)",
+      "Bash(find /home/paji/ghq/github.com/alonw0/claude-monitor-esp32 -name \"config*\" -o -name \"*config*\" 2>/dev/null | head -10)"
     ]
   }
 }
