@@ -1,2 +1,2 @@
-# Freyr-Oracle
-⚜️ Freyr Oracle — Norse God of Agriculture, Fertility &amp; Harvest
+# Freyr-Kvasir
+⚜️ Freyr Kvasir — Norse God of Agriculture, Fertility &amp; Harvest
