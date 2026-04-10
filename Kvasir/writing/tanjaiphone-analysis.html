@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>วิเคราะห์ธุรกิจ: ทันใจโฟน</title>
+<style>
+  :root {
+    --bg: #0f0f13;
+    --surface: #1a1a24;
+    --surface2: #22222f;
+    --border: #2e2e40;
+    --accent: #7c6af7;
+    --accent2: #4fc3f7;
+    --accent3: #a8edbc;
+    --warn: #f7c94f;
+    --danger: #f77c7c;
+    --text: #e8e8f0;
+    --muted: #8888aa;
+    --font: 'Segoe UI', 'Noto Sans Thai', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    background: linear-gradient(135deg, #1a0a3a 0%, #0a1a3a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 24px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(124,106,247,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 50%, rgba(79,195,247,0.1) 0%, transparent 60%);
+  }
+  .header-tag {
+    display: inline-block;
+    background: rgba(124,106,247,0.2);
+    border: 1px solid rgba(124,106,247,0.4);
+    color: var(--accent);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  header h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    position: relative;
+    margin-bottom: 12px;
+  }
+  header h1 span { color: var(--accent); }
+  .header-sub {
+    color: var(--muted);
+    font-size: 14px;
+    position: relative;
+  }
+  .header-sub b { color: var(--accent2); }
+
+  /* ─── NAV ─── */
+  nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    padding: 14px 16px;
+    font-size: 13px;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  nav a:hover { color: var(--text); border-bottom-color: var(--accent); }
+
+  /* ─── LAYOUT ─── */
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  section {
+    margin-bottom: 56px;
+    scroll-margin-top: 60px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    background: var(--accent);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  /* ─── CARDS ─── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .card h3 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  /* ─── INFO GRID ─── */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media(max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
+  .info-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .info-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .info-value { font-size: 14px; font-weight: 500; }
+
+  /* ─── BADGES ─── */
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .badge-purple { background: rgba(124,106,247,0.15); color: var(--accent); border: 1px solid rgba(124,106,247,0.3); }
+  .badge-blue   { background: rgba(79,195,247,0.12);  color: var(--accent2); border: 1px solid rgba(79,195,247,0.25); }
+  .badge-green  { background: rgba(168,237,188,0.12); color: var(--accent3); border: 1px solid rgba(168,237,188,0.25); }
+  .badge-warn   { background: rgba(247,201,79,0.12);  color: var(--warn);   border: 1px solid rgba(247,201,79,0.25); }
+  .badge-red    { background: rgba(247,124,124,0.12); color: var(--danger); border: 1px solid rgba(247,124,124,0.25); }
+
+  /* ─── USP CARDS ─── */
+  .usp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+  .usp-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .usp-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .usp-icon { font-size: 22px; margin-bottom: 8px; }
+  .usp-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .usp-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ─── TABLE ─── */
+  .table-wrap { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  thead th {
+    background: var(--surface2);
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  tbody tr:hover { background: var(--surface2); }
+  tbody td { padding: 11px 14px; vertical-align: top; }
+  tbody td:first-child { font-weight: 500; color: var(--accent2); white-space: nowrap; }
+
+  /* ─── FUNNEL ─── */
+  .funnel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin: 24px 0;
+  }
+  .funnel-step {
+    width: 100%;
+    max-width: 480px;
+    padding: 12px 20px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    position: relative;
+  }
+  .funnel-step.top    { background: rgba(124,106,247,0.2); border: 1px solid rgba(124,106,247,0.4); color: var(--accent); }
+  .funnel-step.mid    { background: rgba(79,195,247,0.15); border: 1px solid rgba(79,195,247,0.3);  color: var(--accent2); }
+  .funnel-step.bottom { background: rgba(168,237,188,0.15); border: 1px solid rgba(168,237,188,0.3); color: var(--accent3); }
+  .funnel-arrow {
+    color: var(--muted);
+    font-size: 18px;
+    padding: 2px 0;
+    line-height: 1;
+  }
+
+  /* ─── CHANNEL GRID ─── */
+  .channel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .channel-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .channel-platform { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+  .channel-handle { font-size: 14px; font-weight: 600; color: var(--accent2); }
+  .channel-stat { font-size: 12px; color: var(--accent3); }
+
+  /* ─── CONTENT SECTION ─── */
+  .content-type-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  @media(max-width: 600px) { .content-type-grid { grid-template-columns: 1fr; } }
+  .content-type-card {
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+  .content-type-card.main  { background: rgba(124,106,247,0.1); border: 1px solid rgba(124,106,247,0.25); }
+  .content-type-card.drama { background: rgba(247,201,79,0.08); border: 1px solid rgba(247,201,79,0.2); }
+  .content-type-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+  .content-type-card ul { list-style: none; }
+  .content-type-card ul li { font-size: 13px; color: var(--muted); padding: 2px 0; }
+  .content-type-card ul li::before { content: '› '; color: var(--accent); }
+
+  .content-topic {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+  }
+  .content-topic h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .content-topic p { font-size: 13px; color: var(--muted); }
+  .content-topic .why {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--accent3);
+    background: rgba(168,237,188,0.08);
+    border: 1px solid rgba(168,237,188,0.2);
+    border-radius: 4px;
+    padding: 2px 8px;
+  }
+
+  /* ─── COMPETITOR ─── */
+  .competitor-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .competitor-row:last-child { border-bottom: none; }
+  .comp-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .comp-direct   { background: rgba(247,124,124,0.2); color: var(--danger); }
+  .comp-semi     { background: rgba(247,201,79,0.2);  color: var(--warn); }
+  .comp-indirect { background: rgba(124,106,247,0.2); color: var(--accent); }
+  .comp-name { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+  .comp-diff { font-size: 13px; color: var(--muted); }
+
+  /* ─── COMPARE TABLE ─── */
+  .compare-table th:first-child { width: 140px; }
+  .icon-yes  { color: #a8edbc; }
+  .icon-no   { color: #f77c7c; }
+  .icon-warn { color: #f7c94f; }
+  .icon-star { color: #f7c94f; }
+
+  /* ─── ISSUES ─── */
+  .issue-card {
+    display: flex;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+  }
+  .issue-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .issue-dot.high { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
+  .issue-dot.mid  { background: var(--warn);   box-shadow: 0 0 8px var(--warn); }
+  .issue-dot.low  { background: var(--accent3); }
+  .issue-title { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+  .issue-desc  { font-size: 13px; color: var(--muted); }
+  .issue-level { font-size: 11px; margin-top: 4px; font-weight: 600; }
+  .issue-level.high { color: var(--danger); }
+  .issue-level.mid  { color: var(--warn); }
+  .issue-level.low  { color: var(--accent3); }
+
+  /* ─── POSITIONING BOX ─── */
+  .positioning-box {
+    background: linear-gradient(135deg, rgba(124,106,247,0.08) 0%, rgba(79,195,247,0.06) 100%);
+    border: 1px solid rgba(124,106,247,0.25);
+    border-radius: 12px;
+    padding: 28px 32px;
+    text-align: center;
+  }
+  .positioning-box h3 { font-size: 18px; margin-bottom: 20px; color: var(--accent); }
+  .pos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    text-align: left;
+    margin-bottom: 20px;
+  }
+  @media(max-width: 500px) { .pos-grid { grid-template-columns: 1fr; } }
+  .pos-item {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+    align-items: flex-start;
+  }
+  .pos-icon { flex-shrink: 0; font-size: 16px; margin-top: 1px; }
+  .verdict {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 14px 20px;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--accent2);
+    border-left: 3px solid var(--accent2);
+    text-align: left;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 32px;
+    color: var(--muted);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+  }
+  footer span { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-tag">Business Analysis Report</div>
+  <h1>📊 <span>ทันใจโฟน</span></h1>
+  <p class="header-sub">ร้านผ่อนมือถือซับไพรม์ · วิเคราะห์โดย <b>Freyr Oracle ⚜️</b> · 2 เมษายน 2569</p>
+</header>
+
+<!-- NAV -->
+<nav>
+  <a href="#s1">ข้อมูลร้าน</a>
+  <a href="#s2">สินค้า</a>
+  <a href="#s3">การขาย</a>
+  <a href="#s4">ช่องทาง</a>
+  <a href="#s5">Content</a>
+  <a href="#s6">คู่แข่ง</a>
+  <a href="#s7">Issues</a>
+  <a href="#s8">สรุป</a>
+</nav>
+
+<main>
+
+  <!-- S1: ข้อมูลร้านค้า -->
+  <section id="s1">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <h2>ข้อมูลร้านค้า</h2>
+    </div>
+
+    <div class="card">
+      <h3>ลักษณะธุรกิจ</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">ประเภท</div>
+          <div class="info-value">ร้านผ่อนมือถือซับไพรม์</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">รูปแบบ</div>
+          <div class="info-value">หน้าร้านเท่านั้น — ไม่จัดส่ง</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">กลุ่มเป้าหมาย</div>
+          <div class="info-value">ติด Blacklist / ไม่มีสลิป / ไม่มีบัตรเครดิต</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">เงื่อนไขอนุมัติ</div>
+          <div class="info-value">บัตรประชาชนใบเดียว · ~2 นาที</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">ดาวน์เริ่มต้น</div>
+          <div class="info-value" style="color:var(--accent3);font-size:18px;font-weight:700;">฿2,500</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">สาขา</div>
+          <div class="info-value">บางนา · ลาดพร้าว · เมืองทอง · ลำลูกกา</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>จุดเด่น / จุดขาย</h3>
+      <div class="usp-grid">
+        <div class="usp-card">
+          <div class="usp-icon">🚫</div>
+          <div class="usp-title">ไม่เช็คเครดิต</div>
+          <div class="usp-desc">ติด Blacklist ก็ผ่าน — เปิดกว้างที่สุดในตลาด</div>
+        </div>
+        <div class="usp-card">
+          <div class="usp-icon">⚡</div>
+          <div class="usp-title">อนุมัติเร็ว 2 นาที</div>
+          <div class="usp-desc">ไม่รอนาน ไม่มีขั้นตอนยุ่งยาก</div>
+        </div>
+        <div class="usp-card">
+          <div class="usp-icon">✅</div>
+          <div class="usp-title">สินค้าแท้มีประกัน</div>
+          <div class="usp-desc">iPhone, Samsung — ศูนย์ไทยทุกเครื่อง</div>
+        </div>
+        <div class="usp-card">
+          <div class="usp-icon">💰</div>
+          <div class="usp-title">ดาวน์ต่ำ</div>
+          <div class="usp-desc">เริ่ม 2,500 บาท — เข้าถึงง่ายสำหรับ low-income</div>
+        </div>
+        <div class="usp-card">
+          <div class="usp-icon">🎬</div>
+          <div class="usp-title">Content Marketing</div>
+          <div class="usp-desc">ช่องหลักให้ความรู้ + ละครไวรัล — ไม่มีคู่แข่งทำเหมือน</div>
+        </div>
+        <div class="usp-card">
+          <div class="usp-icon">🔓</div>
+          <div class="usp-title">ไม่มี iCloud ฝัง</div>
+          <div class="usp-desc">ลูกค้าล็อกอิน Apple ID ของตัวเองได้ทันที ไม่ถูกล็อคเครื่องโดยร้าน</div>
+        </div>
+        <div class="usp-card">
+          <div class="usp-icon">🤝</div>
+          <div class="usp-title">ไม่ประจานลูกค้า</div>
+          <div class="usp-desc">ไม่โพสรูป/ชื่อลูกค้าผิดนัดบน Social Media ต่างจากบางร้านในตลาด</div>
+        </div>
+        <div class="usp-card">
+          <div class="usp-icon">🛡️</div>
+          <div class="usp-title">สินค้าจริง ไม่โอนก่อน</div>
+          <div class="usp-desc">มีสต็อกเครื่องจริงที่ร้าน ถึงวันนัดค่อยมารับเครื่อง ลดความเสี่ยงถูกโกง</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S2: สินค้า -->
+  <section id="s2">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <h2>สินค้าที่จำหน่าย</h2>
+    </div>
+
+    <div class="card">
+      <h3>ประเภทสินค้า</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ประเภท</th><th>แบรนด์</th><th>หมายเหตุ</th></tr></thead>
+          <tbody>
+            <tr><td>Smartphone</td><td>iPhone (ทุก Series), Samsung Galaxy</td><td>สินค้าหลัก</td></tr>
+            <tr><td>Tablet</td><td>iPad</td><td>ขายควบคู่</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>เงื่อนไขการผ่อน</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">ดาวน์เริ่มต้น</div>
+          <div class="info-value" style="color:var(--accent3);font-weight:700;font-size:18px;">฿2,500</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">ระยะผ่อน</div>
+          <div class="info-value">ยืดหยุ่นตามรุ่น</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">อัตราดอกเบี้ย</div>
+          <div class="info-value" style="color:var(--warn);">ไม่เปิดเผย (ร้องเรียนบน Pantip)</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">GPS</div>
+          <div class="info-value">ติดในเครื่อง เพื่อป้องกันผิดนัด</div>
+        </div>
+      </div>
+      <p style="margin-top:14px;font-size:13px;color:var(--muted);">
+        <b style="color:var(--text)">สินค้าขายดี:</b> iPhone รุ่นกลาง-ล่าง + Samsung mid-range
+      </p>
+    </div>
+  </section>
+
+  <!-- S3: วิธีการขาย -->
+  <section id="s3">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <h2>วิธีการขาย</h2>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <h3>Customer Journey</h3>
+      <div class="funnel">
+        <div class="funnel-step top">เห็น Content TikTok / Facebook</div>
+        <div class="funnel-arrow">↓</div>
+        <div class="funnel-step top">สนใจ → DM / โทรถาม</div>
+        <div class="funnel-arrow">↓</div>
+        <div class="funnel-step mid">นัด Walk-in หน้าร้าน</div>
+        <div class="funnel-arrow">↓</div>
+        <div class="funnel-step mid">กรอกใบสมัคร + บัตรประชาชน</div>
+        <div class="funnel-arrow">↓</div>
+        <div class="funnel-step mid">อนุมัติ 2 นาที → รับเครื่องทันที</div>
+        <div class="funnel-arrow">↓</div>
+        <div class="funnel-step bottom">ผ่อนรายเดือน (มี GPS ในเครื่อง)</div>
+      </div>
+      <p style="text-align:center;font-size:12px;color:var(--danger);margin-top:8px;">⚠️ ไม่มี e-commerce / ไม่จัดส่ง — ต้องมาที่ร้านเท่านั้น</p>
+    </div>
+
+    <div class="card">
+      <h3>กลยุทธ์การขาย</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>กลยุทธ์</th><th>รายละเอียด</th></tr></thead>
+          <tbody>
+            <tr><td>Drama Content</td><td>"ละครทันใจโฟน" — มือถือลวงรัก, ผ่อนรักซ้อนงวด — สร้าง awareness แบบ entertainment</td></tr>
+            <tr><td>Pain Point Messaging</td><td>"บัตรประชาชนใบเดียว", "ติดแบล็คลิสต์ก็ผ่าน" — ตรงใจ target group</td></tr>
+            <tr><td>Low Barrier Entry</td><td>ดาวน์ 2,500 — จำนวนน้อยที่สุดที่รู้สึกเป็นไปได้</td></tr>
+            <tr><td>Speed as USP</td><td>"อนุมัติทันใจ 2 นาที" — ชื่อร้านสื่อสาร positioning ชัด</td></tr>
+            <tr><td>Multi-Page Strategy</td><td>Facebook V2 = "ดาวน์ถูก" / V4 = "บัตรประชาชนใบเดียว" — แยก message ต่าม segment</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- S4: ช่องทาง -->
+  <section id="s4">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <h2>แพลตฟอร์มที่ใช้หาลูกค้า</h2>
+    </div>
+
+    <div class="card">
+      <h3>ช่องทางออนไลน์</h3>
+      <div class="channel-grid">
+        <div class="channel-card">
+          <div class="channel-platform">TikTok · ช่องหลัก</div>
+          <div class="channel-handle">@tanjaiphone</div>
+          <div class="channel-stat">116.5K followers · 1.1M likes</div>
+        </div>
+        <div class="channel-card">
+          <div class="channel-platform">TikTok · ละคร</div>
+          <div class="channel-handle">@lakorntanjai</div>
+          <div class="channel-stat">Viral drama content</div>
+        </div>
+        <div class="channel-card">
+          <div class="channel-platform">Facebook · Main</div>
+          <div class="channel-handle">tanjaiphoneofficial</div>
+          <div class="channel-stat">Official page หลัก</div>
+        </div>
+        <div class="channel-card">
+          <div class="channel-platform">Facebook · V2</div>
+          <div class="channel-handle">tanjaiphoneV2</div>
+          <div class="channel-stat">Messaging: "ดาวน์ถูก"</div>
+        </div>
+        <div class="channel-card">
+          <div class="channel-platform">Facebook · V4</div>
+          <div class="channel-handle">tanjaiphonev4</div>
+          <div class="channel-stat">Messaging: "บัตรประชาชนใบเดียว"</div>
+        </div>
+        <div class="channel-card">
+          <div class="channel-platform">Instagram</div>
+          <div class="channel-handle">tanjaiphoneofficial</div>
+          <div class="channel-stat">Secondary channel</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>ช่องทางออฟไลน์</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ช่องทาง</th><th>รายละเอียด</th></tr></thead>
+          <tbody>
+            <tr><td>Signage หน้าร้าน</td><td>ป้ายร้านที่เห็นได้จากถนน ทั้ง 4 สาขา</td></tr>
+            <tr><td>Word of Mouth</td><td>ลูกค้าเก่าแนะนำลูกค้าใหม่ — สำคัญมากใน sub-prime market</td></tr>
+            <tr><td>ทำเลร้าน</td><td>ย่านชุมชนที่มีกลุ่มเป้าหมาย ไม่ใช่ห้างหรู</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- S5: Content Strategy -->
+  <section id="s5">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <h2>Content Strategy</h2>
+    </div>
+
+    <div class="content-type-grid">
+      <div class="content-type-card main">
+        <h4>📱 @tanjaiphone — ช่องหลัก</h4>
+        <ul>
+          <li>เจ้าของออกหน้าเองเกือบทุกคลิป</li>
+          <li>ให้ความรู้ → สร้าง Trust</li>
+          <li>Tone: Honest, ตรงไปตรงมา</li>
+          <li>Conversion สูง</li>
+        </ul>
+      </div>
+      <div class="content-type-card drama">
+        <h4>🎭 @lakorntanjai — ช่องละคร</h4>
+        <ul>
+          <li>นักแสดง / ละครสั้น</li>
+          <li>สร้าง Awareness / Viral</li>
+          <li>Tone: Drama, Entertaining</li>
+          <li>Top-of-funnel กว้าง</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>5 หมวด Content ช่องหลัก</h3>
+
+      <div class="content-topic">
+        <h4>📊 เปรียบเทียบ iPhone รุ่นไหนดี / คุ้ม</h4>
+        <p>iPhone รุ่นเก่า vs ใหม่ — ราคาต่างกันเท่าไหร่ คุ้มไหมที่จะอัปเกรด เทียบ camera, battery, chip ในแบบที่เข้าใจง่าย</p>
+        <span class="why">ทำไมได้ผล: กลุ่มเป้าหมายมีงบจำกัด ต้องการ maximize ความคุ้มค่า</span>
+      </div>
+
+      <div class="content-topic" style="border-left-color:var(--warn)">
+        <h4>⚠️ คำเตือน / สิ่งที่ควรรู้ก่อนผ่อน</h4>
+        <p>ผ่อนมือถือมีกี่แบบ อันไหนถูก/แพงกว่าที่คิด ค่าใช้จ่ายซ่อนเร้น GPS fee ค่าปรับ — บอกข้อเสียของตัวเองด้วย</p>
+        <span class="why" style="color:var(--warn);background:rgba(247,201,79,0.08);border-color:rgba(247,201,79,0.2)">ทำไมได้ผล: Radical transparency สร้าง trust มากกว่าโฆษณา</span>
+      </div>
+
+      <div class="content-topic" style="border-left-color:var(--accent2)">
+        <h4>🔍 รีวิวตามงบประมาณ</h4>
+        <p>"iPhone งบ 5,000 ดาวน์ควรเลือกรุ่นไหน" — วิเคราะห์ value-for-money จากมุมคนที่ผ่อนซื้อ ไม่ใช่ tech reviewer</p>
+        <span class="why" style="color:var(--accent2);background:rgba(79,195,247,0.08);border-color:rgba(79,195,247,0.2)">ทำไมได้ผล: Context ตรงกับ audience ที่กำลังจะผ่อน</span>
+      </div>
+
+      <div class="content-topic" style="border-left-color:var(--accent3)">
+        <h4>🛠️ คุณภาพ / อายุการใช้งาน</h4>
+        <p>"iPhone รุ่นนี้แบตเสื่อมเร็วไหม" "support iOS ได้ถึงปีไหน" "ซื้อมือสองเสี่ยงแค่ไหน"</p>
+        <span class="why">ทำไมได้ผล: ลูกค้าผ่อนกลัวว่าจ่ายยังไม่หมด เครื่องพังแล้ว — content นี้ลด anxiety</span>
+      </div>
+
+      <div class="content-topic" style="border-left-color:var(--accent)">
+        <h4>👤 เจ้าของออกหน้าเองแทบทุกคลิป</h4>
+        <p>สร้าง Personal Brand ไปพร้อมกับ Brand ร้าน คนดูรู้จัก "เจ้าของ" ก่อนรู้จักร้าน — เมื่อมาถึงร้านรู้สึกเหมือนรู้จักกันแล้ว</p>
+        <span class="why">ทำไมได้ผล: ลูกค้า Walk-in มักบอกว่า "เห็นจาก TikTok" → conversion โดยตรง</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Content Funnel</h3>
+      <div class="funnel">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:560px;margin-bottom:4px;">
+          <div class="funnel-step top" style="max-width:100%;">🎭 ละคร Viral<br><small style="opacity:0.7">Reach กว้าง</small></div>
+          <div class="funnel-step top" style="max-width:100%;background:rgba(79,195,247,0.15);border-color:rgba(79,195,247,0.3);color:var(--accent2);">📱 ช่องหลัก<br><small style="opacity:0.7">รู้จักร้าน</small></div>
+        </div>
+        <div class="funnel-arrow">↓</div>
+        <div class="funnel-step mid">ดู content ให้ความรู้ · เริ่ม trust เจ้าของ</div>
+        <div class="funnel-arrow">↓</div>
+        <div class="funnel-step mid">DM / โทรถาม</div>
+        <div class="funnel-arrow">↓</div>
+        <div class="funnel-step bottom">🏪 Walk-in หน้าร้าน → ปิดการขาย</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S6: คู่แข่ง -->
+  <section id="s6">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <h2>กลุ่มคู่แข่งทางธุรกิจ</h2>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <h3>คู่แข่งโดยตรง — Sub-prime Installment</h3>
+      <div class="badge-row" style="margin-bottom:16px;">
+        <span class="badge badge-red">ไม่เช็คเครดิต</span>
+        <span class="badge badge-red">กลุ่มเดียวกัน</span>
+      </div>
+      <div class="competitor-row">
+        <div class="comp-num comp-direct">1</div>
+        <div><div class="comp-name">VnPhone</div><div class="comp-diff">ใหญ่ที่สุด 54+ สาขา 500K+ ลูกค้า — Scale ใหญ่กว่า 10x แต่ไม่มี drama content</div></div>
+      </div>
+      <div class="competitor-row">
+        <div class="comp-num comp-direct">2</div>
+        <div><div class="comp-name">Ufriend</div><div class="comp-diff">Apple-only 30+ สาขา มี mobile app + trade-in — Digital-first มากกว่า</div></div>
+      </div>
+      <div class="competitor-row">
+        <div class="comp-num comp-direct">3</div>
+        <div><div class="comp-name">Fastfone365</div><div class="comp-diff">ดาวน์เริ่ม 1,596 บาท (ต่ำกว่า) อนุมัติเป็นนาที max 10 งวด</div></div>
+      </div>
+      <div class="competitor-row">
+        <div class="comp-num comp-direct">4</div>
+        <div><div class="comp-name">Marky Phone</div><div class="comp-diff">มีมือสองด้วย หลายจังหวัด — ต่างจังหวัดมากกว่า</div></div>
+      </div>
+      <div class="competitor-row">
+        <div class="comp-num comp-direct">5</div>
+        <div><div class="comp-name">MyCAll</div><div class="comp-diff">iPhone focus, Bangkok — Scope เล็กกว่า ไม่มี content strategy</div></div>
+      </div>
+      <div class="competitor-row">
+        <div class="comp-num comp-direct">6</div>
+        <div><div class="comp-name">FrenPhone</div><div class="comp-diff">ผ่อนไม่ใช้บัตรเครดิต — ไม่มี content strategy ชัดเจน</div></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <h3>คู่แข่งกึ่งตรง — มีเครดิตตรวจสอบบ้าง</h3>
+      <div class="badge-row" style="margin-bottom:16px;">
+        <span class="badge badge-warn">ต้องมีคุณสมบัติบ้าง</span>
+      </div>
+      <div class="competitor-row">
+        <div class="comp-num comp-semi">7</div>
+        <div><div class="comp-name">Samsung Finance+</div><div class="comp-diff">3 นาที, ดาวน์ 0 บาท — Manufacturer-backed / Samsung เท่านั้น</div></div>
+      </div>
+      <div class="competitor-row">
+        <div class="comp-num comp-semi">8</div>
+        <div><div class="comp-name">Studio7 / iStudio</div><div class="comp-diff">0% ดอกเบี้ย Apple official — ต้องมีบัตรเครดิต</div></div>
+      </div>
+      <div class="competitor-row">
+        <div class="comp-num comp-semi">9</div>
+        <div><div class="comp-name">Apple Thailand</div><div class="comp-diff">Official warranty เต็ม — ต้องผ่าน verify</div></div>
+      </div>
+      <div class="competitor-row">
+        <div class="comp-num comp-semi">10</div>
+        <div><div class="comp-name">BaNANA PayEasy</div><div class="comp-diff">True Money ecosystem credit line 100K — ต้องสมัคร</div></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <h3>คู่แข่งทางอ้อม</h3>
+      <div class="competitor-row">
+        <div class="comp-num comp-indirect">11</div>
+        <div><div class="comp-name">Lazada / Shopee BNPL</div><div class="comp-diff">E-commerce PayLater — Online เท่านั้น ไม่มีหน้าร้าน</div></div>
+      </div>
+      <div class="competitor-row">
+        <div class="comp-num comp-indirect">12</div>
+        <div><div class="comp-name">AIS Smart Pay</div><div class="comp-diff">Carrier financing — ต้องเป็นลูกค้า AIS</div></div>
+      </div>
+      <div class="competitor-row">
+        <div class="comp-num comp-indirect">13</div>
+        <div><div class="comp-name">True Device Financing</div><div class="comp-diff">Carrier financing — ต้องเป็นลูกค้า True</div></div>
+      </div>
+      <div class="competitor-row">
+        <div class="comp-num comp-indirect">14</div>
+        <div><div class="comp-name">CompAsia / Allo Allo</div><div class="comp-diff">Refurbished + installment — มือสอง ราคาถูกกว่า</div></div>
+      </div>
+      <div class="competitor-row">
+        <div class="comp-num comp-indirect">15</div>
+        <div><div class="comp-name">KTC / AEON</div><div class="comp-diff">Finance company — ต้องมีบัตร</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>เปรียบเทียบ ทันใจโฟน vs คู่แข่งหลัก</h3>
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr><th>มิติ</th><th>ทันใจโฟน</th><th>VnPhone</th><th>Ufriend</th><th>Samsung Finance+</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>เช็คเครดิต</td>
+              <td><span class="icon-no">✗ ไม่เลย</span></td>
+              <td><span class="icon-no">✗ ไม่เลย</span></td>
+              <td><span class="icon-no">✗ ไม่เลย</span></td>
+              <td><span class="icon-warn">⚠ น้อยมาก</span></td>
+            </tr>
+            <tr>
+              <td>ดาวน์ต่ำสุด</td>
+              <td>2,500 ฿</td>
+              <td>ยืดหยุ่น</td>
+              <td>ยืดหยุ่น</td>
+              <td><span class="icon-yes">0 ฿</span></td>
+            </tr>
+            <tr>
+              <td>แบรนด์</td>
+              <td><span class="icon-yes">ทุกแบรนด์</span></td>
+              <td><span class="icon-yes">ทุกแบรนด์</span></td>
+              <td>Apple เท่านั้น</td>
+              <td>Samsung เท่านั้น</td>
+            </tr>
+            <tr>
+              <td>สาขา</td>
+              <td>~4 (BKK)</td>
+              <td>54+</td>
+              <td>30+</td>
+              <td>ทุก AIS shop</td>
+            </tr>
+            <tr>
+              <td>Content</td>
+              <td><span class="icon-star">⭐ Education + ละคร</span></td>
+              <td>Standard</td>
+              <td>Standard</td>
+              <td>Standard</td>
+            </tr>
+            <tr>
+              <td>Mobile App</td>
+              <td><span class="icon-no">✗</span></td>
+              <td><span class="icon-no">✗</span></td>
+              <td><span class="icon-yes">✓</span></td>
+              <td><span class="icon-yes">✓</span></td>
+            </tr>
+            <tr>
+              <td>ออนไลน์</td>
+              <td><span class="icon-no">✗ หน้าร้านเท่านั้น</span></td>
+              <td><span class="icon-no">✗ หน้าร้านเท่านั้น</span></td>
+              <td><span class="icon-warn">⚠ บางส่วน</span></td>
+              <td><span class="icon-yes">✓</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- S7: Issues -->
+  <section id="s7">
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <h2>Issues ที่พบ</h2>
+    </div>
+
+    <div class="issue-card">
+      <div class="issue-dot high"></div>
+      <div>
+        <div class="issue-title">ค่าปรับ GPS ไม่ชัดเจน</div>
+        <div class="issue-desc">Pantip รีวิวร้องเรียนว่า fee structure ไม่ transparent</div>
+        <div class="issue-level high">ความเสี่ยง: สูง — ทำลาย Trust</div>
+      </div>
+    </div>
+    <div class="issue-card">
+      <div class="issue-dot high"></div>
+      <div>
+        <div class="issue-title">Debt Collection ร้องเรียน</div>
+        <div class="issue-desc">มีรีวิวเรื่องการทวงหนี้บน Pantip</div>
+        <div class="issue-level high">ความเสี่ยง: สูง — Brand Reputation</div>
+      </div>
+    </div>
+    <div class="issue-card">
+      <div class="issue-dot mid"></div>
+      <div>
+        <div class="issue-title">Scale เล็กกว่า VnPhone มาก</div>
+        <div class="issue-desc">4 สาขา vs 54+ สาขาของ VnPhone</div>
+        <div class="issue-level mid">ความเสี่ยง: กลาง — ขยายยาก</div>
+      </div>
+    </div>
+    <div class="issue-card">
+      <div class="issue-dot mid"></div>
+      <div>
+        <div class="issue-title">ไม่มีระบบ Online</div>
+        <div class="issue-desc">ไม่มีแอป / ไม่ส่ง / ลูกค้าต้องเดินทาง — พลาด Digital-first customers</div>
+        <div class="issue-level mid">ความเสี่ยง: กลาง</div>
+      </div>
+    </div>
+    <div class="issue-card">
+      <div class="issue-dot mid"></div>
+      <div>
+        <div class="issue-title">Content ไม่มี CTA ชัด</div>
+        <div class="issue-desc">ทั้ง education content และละคร ดีมาก แต่ไม่มี link / call-to-action ท้ายคลิป</div>
+        <div class="issue-level mid">ความเสี่ยง: กลาง</div>
+      </div>
+    </div>
+    <div class="issue-card">
+      <div class="issue-dot low"></div>
+      <div>
+        <div class="issue-title">Multiple Facebook Pages ไม่ centralized</div>
+        <div class="issue-desc">V1/V2/V4 ซ้อนกัน → engagement กระจาย</div>
+        <div class="issue-level low">ความเสี่ยง: ต่ำ</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S8: สรุป -->
+  <section id="s8">
+    <div class="section-header">
+      <div class="section-num">8</div>
+      <h2>สรุป Positioning</h2>
+    </div>
+
+    <div class="positioning-box">
+      <h3>ทันใจโฟน อยู่ใน "Blue Zone" ที่ไม่มีใครทำได้เหมือน</h3>
+      <div class="pos-grid">
+        <div class="pos-item"><div class="pos-icon">✅</div><div>Sub-prime ไม่เช็คเครดิต — เหมือน VnPhone/Ufriend</div></div>
+        <div class="pos-item"><div class="pos-icon">✅</div><div>Education Content + Viral Drama — ไม่มีใครทำ</div></div>
+        <div class="pos-item"><div class="pos-icon">✅</div><div>เจ้าของเป็น Face of Brand → Personal Trust</div></div>
+        <div class="pos-item"><div class="pos-icon">✅</div><div>Multi-brand ไม่จำกัด Apple หรือ Samsung</div></div>
+        <div class="pos-item"><div class="pos-icon">❌</div><div>Scale ยังเล็ก + ไม่มีระบบ Digital</div></div>
+        <div class="pos-item"><div class="pos-icon">❌</div><div>Fee ไม่ transparent + CTA ไม่ชัด</div></div>
+      </div>
+      <div class="verdict">
+        "Content King ที่ยังต้องแปลง Awareness → Revenue ให้มีประสิทธิภาพกว่านี้"
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  วิเคราะห์โดย <span>Freyr Oracle ⚜️</span> · 2 เมษายน 2569 · Freyr-Oracle Repository
+</footer>
+
+</body>
+</html>

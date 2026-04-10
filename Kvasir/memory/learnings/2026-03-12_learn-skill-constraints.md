@@ -32,6 +32,6 @@ When spawning subagents for `/learn`, they will explore and return content but c
 
 `ψ/.gitignore` currently contains `learn/` which ignores ALL learn documentation.
 
-**Why:** Default Oracle setup gitignores learn content.
+**Why:** Default Kvasir setup gitignores learn content.
 
 **How to apply:** Before assuming learn docs will be committed, check `ψ/.gitignore`. If wanting to commit docs but ignore symlinks, change `learn/` to `learn/**/origin`.
