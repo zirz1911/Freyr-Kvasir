@@ -1,0 +1,86 @@
+#!/usr/bin/env python3
+import sys, json, time, os, tempfile
+
+sys.stdout.reconfigure(encoding="utf-8")
+
+try:
+    data = json.loads(sys.stdin.read())
+except Exception:
+    data = {}
+
+# --- Extract fields ---
+cwd      = data.get("cwd") or (data.get("workspace") or {}).get("current_dir", "")
+model    = (data.get("model") or {}).get("display_name", "")
+used     = (data.get("context_window") or {}).get("used_percentage")
+vim_mode = (data.get("vim") or {}).get("mode", "")
+
+cost_usd  = (data.get("cost") or {}).get("total_cost_usd")
+tok_in    = (data.get("context_window") or {}).get("total_input_tokens", 0) or 0
+tok_out   = (data.get("context_window") or {}).get("total_output_tokens", 0) or 0
+total_tok = tok_in + tok_out
+
+# --- ANSI colors ---
+RST  = "\033[0m";  BOLD = "\033[1m";  DIM  = "\033[2m"
+CYN  = "\033[36m"; GLD  = "\033[33m"; GRN  = "\033[32m"
+YLW  = "\033[93m"; RED  = "\033[31m"; TEAL = "\033[96m"
+
+SEP = f" {DIM}│{RST} "
+
+# --- Rune (cycles per second — Freyr governs cycles) ---
+RUNES = "ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ"
+rune = RUNES[int(time.time()) % len(RUNES)]
+
+# --- Shorten cwd ---
+parts = cwd.replace("\\", "/").rstrip("/").split("/")
+short = "/".join(parts[-2:]) if len(parts) >= 2 else (parts[-1] if parts else "~")
+
+# --- Context bar ---
+if used is not None:
+    u = int(float(used))
+    filled = u // 10
+    bar = "█" * filled + "░" * (10 - filled)
+    col = RED if u >= 80 else (YLW if u >= 50 else GRN)
+    ctx = f"{col}{bar} {u}%{RST}"
+else:
+    ctx = f"{DIM}ctx: —{RST}"
+
+# --- Tokens ---
+if total_tok > 0:
+    tok_str = f"{total_tok/1000:.1f}k" if total_tok >= 1000 else str(total_tok)
+    tok_display = f"{TEAL}{tok_str} tok{RST}"
+else:
+    tok_display = f"{DIM}0 tok{RST}"
+
+# --- Cost ---
+if cost_usd is not None:
+    if cost_usd >= 1.0:
+        cost_str, cost_col = f"${cost_usd:.2f}", RED
+    elif cost_usd >= 0.1:
+        cost_str, cost_col = f"${cost_usd:.3f}", YLW
+    else:
+        cost_str, cost_col = f"${cost_usd:.4f}", GRN
+    cost_display = f"{cost_col}{cost_str}{RST}"
+else:
+    cost_display = f"{DIM}$—{RST}"
+
+# --- Vim mode ---
+if vim_mode == "INSERT":
+    vim = f"{SEP}{GRN}[INSERT]{RST}"
+elif vim_mode:
+    vim = f"{SEP}{GLD}[{vim_mode}]{RST}"
+else:
+    vim = ""
+
+# --- Assemble ---
+line = (
+    f"{GLD}{rune}{RST} "
+    f"{BOLD}{GLD}⚜️  Freyr{RST}"
+    f"{SEP}{YLW}{short}{RST}"
+    f"{SEP}{GRN}{model}{RST}"
+    f"{SEP}{ctx}"
+    f"{SEP}{tok_display}"
+    f"{SEP}{cost_display}"
+    f"{vim}"
+)
+
+print(line)

@@ -36,5 +36,9 @@
       "WebFetch(domain:gemautomate.io)",
       "Bash(python3:*)"
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "python3 /home/paji/Freyr-Kvasir/.claude/statusline.py"
   }
 }
